@@ -1,0 +1,67 @@
+#+title: ~go-deepcmp~ - Deep compare data structures in Go
+
+~go-deepcmp~ makes it possible to compare data structures in Go and see any
+differences in a human readable format. It does the 'right' thing in most
+situations but is also customisable in ways that allow you to use your own
+methods of comparing things.
+
+* Features
+** TODO Deep compare data structures
+*** TODO Scalars
+**** TODO numbers
+**** TODO strings
+**** TODO complex numbers
+*** TODO Slices
+*** TODO Arrays
+*** TODO Maps
+*** TODO Pointers
+*** TODO Channels?
+*** TODO Interfaces?
+** TODO Handle known types specially
+*** TODO time.Time
+*** TODO math/big.Rat
+*** TODO sync.Mutex
+** TODO Display differences in multiple formats
+** TODO Display differences in color
+** TODO Test helpers (~cmp.AssertEqual()~, ~cmp.AssertSubset()~)
+** TODO Support custom comparison functions for specific types
+
+* Usage
+** Examples
+
+#+BEGIN_SRC go
+  package main
+
+  import (
+          "fmt"
+          "time"
+
+          "github.com/speunz/go-deepcmp/cmp"
+  )
+
+  type Person struct {
+          Name        string
+          DateOfBirth time.Time
+  }
+
+  func main() {
+          p1 := Person{
+                  Name:        "John",
+                  DateOfBirth: time.Parse("2006-01-02", "1980-09-25"),
+          }
+          p2 := Person{
+                  Name:        "Jack",
+                  DateOfBirth: time.Parse("2006-01-02", "1981-08-15"),
+          }
+
+          diff := cmp.Cmp(p1, p2)
+
+          /* Print the differences in a human readable format
+          ,* struct Person {
+          ,*    Name: "John" != "Jack,
+          ,*    DateOfBirth: "1980-09-25" != "1981-08-15",
+          ,* }
+           ,*/
+          fmt.Println("Differences: %s", diff)
+  }
+#+END_SRC
